@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824591574322",
+    "project_id": "hongoapp-41",
+    "storage_bucket": "hongoapp-41.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824591574322:android:0180375a052b4ddb4b232b",
+        "android_client_info": {
+          "package_name": "org.icons.hongoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824591574322-uqgimtltfnaanvk2o78rso8qrhi2jesc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjznVBmcsUlzyctCgFDg-A8vrIGIH9jKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824591574322-uqgimtltfnaanvk2o78rso8qrhi2jesc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Filter Result"
+        android:id="@+id/toolbar"
+        app:navigationIcon="@drawable/ic_baseline_clear_24"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/select_class"
+        app:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:elevation="10dp"
+        android:layout_below="@+id/toolbar"
+        app:iconTint="@color/grey"
+        app:iconGravity="textEnd"
+        app:icon="@drawable/ic_baseline_arrow_drop_down_24"
+        android:id="@+id/inputClass"/>
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/select_subject"
+        app:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:elevation="10dp"
+        app:iconTint="@color/grey"
+        app:iconGravity="textEnd"
+        app:icon="@drawable/ic_baseline_arrow_drop_down_24"
+        android:layout_below="@+id/inputClass"
+        android:id="@+id/inputSubject"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/select_unit"
+        app:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:elevation="10dp"
+        android:layout_below="@+id/inputSubject"
+        app:iconTint="@color/grey"
+        app:iconGravity="textEnd"
+        app:icon="@drawable/ic_baseline_arrow_drop_down_24"
+        android:id="@+id/inputUnit"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/show_0_results"
+        app:backgroundTint="@color/purple_200"
+        android:textColor="@color/black"
+        app:elevation="10dp"
+        android:layout_below="@+id/inputUnit"
+        android:id="@+id/filter"/>
+
+
+</RelativeLayout>

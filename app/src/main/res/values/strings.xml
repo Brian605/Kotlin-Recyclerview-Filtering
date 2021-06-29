@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">HongoApp</string>
+    <string name="fab">fab</string>
+    <string name="input_1_hint">Input A Descriptive Title For This Content</string>
+    <string name="select_class">Select Class</string>
+    <string name="select_subject">Select Subject</string>
+    <string name="select_unit">Select Unit</string>
+    <string name="select_file">Select File</string>
+    <string name="post_this_file">Post This File</string>
+    <string name="post">Post</string>
+    <string name="filter">filter</string>
+    <string name="show_0_results">Show 0 results</string>
+</resources>

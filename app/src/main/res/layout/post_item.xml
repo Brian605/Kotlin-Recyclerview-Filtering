@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="#DFDCDC">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postTitle"
+        android:text="@string/appbar_scrolling_view_behavior"
+        android:layout_margin="10dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/form"
+        android:text="form 1"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/postTitle"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/subject"
+        android:text="Subject"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/form"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/unit"
+        android:text="Nomino na ngeli"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/subject"/>
+
+</RelativeLayout>
