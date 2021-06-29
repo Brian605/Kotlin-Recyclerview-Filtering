@@ -2,6 +2,10 @@ package org.icons.hongoapp
 
 import java.io.Serializable
 
-data class Post(var title:String,var subject:String, var unit: String, var form:String):Serializable{
+data class Post(val title:String="",
+                val subject:String="",
+                val unit: String="",
+                val form:String=""):Serializable{
+                    
     
 }

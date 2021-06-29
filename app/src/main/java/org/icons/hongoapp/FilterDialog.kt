@@ -25,7 +25,7 @@ class FilterDialog: DialogFragment(){
 
         fun showDialog(manager: FragmentManager){
             val postDialog=FilterDialog();
-            postDialog.show(manager,"Posts Dialog");
+            postDialog.show(manager,"Filter Dialog");
 
         }
     }
@@ -64,9 +64,9 @@ class FilterDialog: DialogFragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.setNavigationOnClickListener(View.OnClickListener {
+        val mainActivity:MainActivity= requireActivity() as MainActivity
 
-            val mainActivity:MainActivity= requireActivity() as MainActivity
+        toolbar.setNavigationOnClickListener(View.OnClickListener {
             mainActivity.fetchData()
             dismiss()
 
@@ -74,17 +74,16 @@ class FilterDialog: DialogFragment(){
 
         filterResult.text= "Show:"+Utils.listSize
 
+
         classInput.setOnClickListener(View.OnClickListener {
-           val classes:Array<String> = arrayOf("Form 1","Form 2","Form 3","Form 4")
+           val classes:Array<String> = mainActivity.getClasses().distinct().toTypedArray()
             val builder = MaterialAlertDialogBuilder(requireActivity())
             builder.setItems(classes,DialogInterface.OnClickListener { dialog, which ->
                 classInput.text=classes[which];
-
-                val mainActivity:MainActivity= requireActivity() as MainActivity
                 mainActivity.filterClass(classes[which],object:CompleteListener{
                     override fun onComplete() {
                        // super.onComplete()
-Log.e("lstener","complete listener called")
+Log.e("listener","complete listener called")
                             filterResult.text= "Show:"+Utils.listSize
                         dialog.dismiss()
                     }
@@ -99,13 +98,19 @@ Log.e("lstener","complete listener called")
         })
 
         subject.setOnClickListener(View.OnClickListener {
-            val subjects:Array<String> = arrayOf("Science","Maths","CRE","English")
+            val form:String=classInput.text.toString()
+
+            if (form.contains("select",true)){
+                Toast.makeText(requireContext(),"You need to select a class first to apply this filter",Toast.LENGTH_LONG).show()
+                return@OnClickListener
+            }
+
+            val subjects:Array<String> = mainActivity.getSubjects(form).distinct().toTypedArray()
             val builder = MaterialAlertDialogBuilder(requireActivity())
             builder.setItems(subjects) { dialog, which ->
                 subject.text = subjects[which];
 
-                val mainActivity: MainActivity = requireActivity() as MainActivity
-                mainActivity.filterSubject(subjects[which], object : CompleteListener {
+                mainActivity.filterSubject(form,subjects[which], object : CompleteListener {
                     override fun onComplete() {
                         // super.onComplete()
                         Log.e("listener", "complete listener called")
@@ -129,7 +134,6 @@ Log.e("lstener","complete listener called")
                 Toast.makeText(requireContext(),"You need to select a subject first to apply this filter",Toast.LENGTH_LONG).show()
                 return@OnClickListener
             }
-            val mainActivity:MainActivity= requireActivity() as MainActivity
             val unitsAvailable:Array<String> = mainActivity.getUnits(subject).distinct().toTypedArray()
             val builder = MaterialAlertDialogBuilder(requireActivity())
             builder.setItems(unitsAvailable) { dialog, which ->

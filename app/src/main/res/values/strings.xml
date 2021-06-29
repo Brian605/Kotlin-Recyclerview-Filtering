@@ -10,4 +10,6 @@
     <string name="post">Post</string>
     <string name="filter">filter</string>
     <string name="show_0_results">Show 0 results</string>
+    <string name="input_title">Input Title</string>
+    <string name="input_subject">Input Subject</string>
 </resources>

@@ -4,19 +4,28 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView;
     lateinit var postList:MutableList<Post>;
+
+    /**@property filteredList We will use this list to hold the filter result
+     *
+     */
     lateinit var filteredList:MutableList<Post>;
    lateinit var adapter:PostAdapter
    lateinit var toolbar: MaterialToolbar
    lateinit var search: SearchView
+   lateinit var addNew:FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView=findViewById(R.id.recycler);
         toolbar=findViewById(R.id.toolbar)
         search=findViewById(R.id.searchBar)
+        addNew=findViewById(R.id.addNew)
 
         setSupportActionBar(toolbar);
 
@@ -36,31 +46,34 @@ class MainActivity : AppCompatActivity() {
         adapter=PostAdapter(this,postList)
         recyclerView.adapter=this.adapter
 
+        addNew.setOnClickListener(View.OnClickListener {
+            UploadDialog.showDialog(supportFragmentManager)
+        })
+
         fetchData();
     }
 
-    /** Populate the recyclerview list with dummy data
+    /**
+     * Fetch Data From Firestore
      *
      */
     fun fetchData() {
         postList.clear()
-         postList.add(Post("Kinetics, A hands-on Experience","Science",
-            "F1_Weather and the sky","Form 1"))
-        postList.add(Post("Mechanics, A hands-on Experience","Science",
-            "F2_kinematics","Form 2"))
-        postList.add(Post("Motion, A hands-on Experience","Science",
-            "F1_Linear Motion","Form 1"))
-        postList.add(Post("Genetics, A hands-on Experience","Science",
-            "F1_Weather and the sky","Form 1"))
-        postList.add(Post("Atoms, A hands-on Experience","Science",
-            "F1_Weather and the sky","Form 1"))
-        postList.add(Post("Verbs, A hands-on Experience","English",
-            "F4_Advanced Verbs","Form 4"))
-        postList.add(Post("Nouns, A hands-on Experience","English",
-            "F3_Basics of Nouns","Form 3"))
+       val db=Firebase.firestore
+        db.collection("posts")
+            .get()
+            .addOnSuccessListener {result->
+               val res:MutableList<Post> =result.toObjects(Post::class.java)
+                Log.e("data",res.toString()+res.size.toString())
+                postList.addAll(res)
+                Utils.listSize=postList.size.toString()
+                adapter.notifyDataSetChanged();
+            }
+            .addOnFailureListener {
+                Log.e("error",it.message.toString())
 
-        Utils.listSize=postList.size.toString()
-adapter.notifyDataSetChanged();
+            }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,28 +95,27 @@ FilterDialog.showDialog(supportFragmentManager)
      */
     fun filterClass(value:String,listener: CompleteListener){
         filteredList.clear()
-        Log.e("toFilter",value)
-       for(element in postList){
-           if (element.form.contains(value,true)){
-               filteredList.add(element)
-           }
-       }
-        adapter= PostAdapter(this,filteredList);
-        recyclerView.adapter=adapter
+
+        val filter2:MutableList<Post> = postList.filter {
+            it.form.contains(value,true)
+        } as MutableList<Post>
+        filteredList.addAll(filter2)
+
         Utils.listSize=filteredList.size.toString()
         Log.e("FilterList",filteredList.size.toString())
         listener.onComplete()
     }
 
+
     /**Filter the list and show only selected subject
      * @param value The subject to filter
      * @param listener Filter complete listener
      */
-    fun filterSubject(value:String, listener:CompleteListener){
+    fun filterSubject(form: String,value:String, listener:CompleteListener){
         val filter2: MutableList<Post> = if (filteredList.isEmpty()){
 
             postList.filter {
-                it.subject.contains(value,true)
+                it.subject.contains(value,true) and (it.form.contains(form,true))
             } as MutableList<Post>
         }else{
             filteredList.filter {
@@ -137,6 +149,28 @@ FilterDialog.showDialog(supportFragmentManager)
             }
         }
         return unitsList
+
+    }
+
+
+    fun getClasses():List<String>{
+        val classList:MutableList<String> = mutableListOf();
+        for(element in postList){
+                classList.add(element.form)
+
+        }
+        return classList
+
+    }
+
+    fun getSubjects(form:String):List<String>{
+        val subjectList:MutableList<String> = mutableListOf();
+        for(element in postList){
+            if (element.form.contains(form,true)){
+                subjectList.add(element.subject)
+            }
+        }
+        return subjectList
 
     }
 
